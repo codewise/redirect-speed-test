@@ -1,0 +1,11 @@
+### List available locations
+GET https://gtmetrix.com/api/0.1/locations
+Authorization: Basic {{email}} {{apiKey}}
+
+### List available locations but using API v2.0 (the code uses 0.1)
+GET https://gtmetrix.com/api/2.0/locations
+authorization: Basic {{apiKey}} {{email}}
+
+### Get test results
+GET https://gtmetrix.com/api/0.1/test/{testId}/har
+authorization: Basic {{email}} {{apiKey}}
