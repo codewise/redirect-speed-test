@@ -125,3 +125,4 @@ buildNumber.properties
 
 # End of https://www.gitignore.io/api/java,maven,intellij+all
 /src/main/resources/configuration.yml
+results.csv
