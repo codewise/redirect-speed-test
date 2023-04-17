@@ -30,4 +30,20 @@ public class Configuration { // record will not work with snakeyaml
                 ", locations=" + locations +
                 '}';
     }
+
+    public double getExpectedApiUsage() {
+        return getTotalNumberOfTestsToRun() * reportType.getCreditsUse();
+    }
+
+    public int getTotalNumberOfTestsToRun() {
+        return locations.size() * browsers.size() * numberOfTestsToRunForBrowserAndLocation;
+    }
+
+    public int getNumberOfCurrentTestInTestSet(Location location, Browser browser, int testNumber) {
+        int testsRunForPreviousLocations =
+                locations.indexOf(location) * browsers.size() * numberOfTestsToRunForBrowserAndLocation;
+        int testsRunForPreviousBrowsersInCurrentLocation =
+                browsers.indexOf(browser) * numberOfTestsToRunForBrowserAndLocation;
+        return testsRunForPreviousLocations + testsRunForPreviousBrowsersInCurrentLocation + testNumber;
+    }
 }

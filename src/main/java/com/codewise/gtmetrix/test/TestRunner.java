@@ -41,7 +41,7 @@ public class TestRunner {
     }
 
     private void checkIfTestsCanBeRun() {
-        double expectedApiUsage = calculateExpectedApiUsage();
+        double expectedApiUsage = configuration.getExpectedApiUsage();
         try {
             double availableApiCredits = gtmetrixApi.checkAvailableApiCredits();
             if (expectedApiUsage > availableApiCredits) {
@@ -56,12 +56,6 @@ public class TestRunner {
             log.error("Unable to check available api credits", e);
             throw new RuntimeException(e);
         }
-    }
-
-    private double calculateExpectedApiUsage() {
-        int numberOfRequestsToBeMade = configuration.getLocations().size() * configuration.getBrowsers().size()
-                * configuration.getNumberOfTestsToRunForBrowserAndLocation();
-        return numberOfRequestsToBeMade * configuration.getReportType().getCreditsUse();
     }
 
     private void doRunTests() {
@@ -131,7 +125,9 @@ public class TestRunner {
         try {
             ScheduledTest scheduledTest = gtmetrixApi.scheduleTest(url, location, browser, reportType, testNumber);
             scheduledTests.add(scheduledTest);
-            log.info("Scheduled test: {}", scheduledTest.testId());
+            log.info("[{}/{}] Scheduled test: {}",
+                    configuration.getNumberOfCurrentTestInTestSet(location, browser, testNumber),
+                    configuration.getTotalNumberOfTestsToRun(), scheduledTest);
         } catch (IOException e) {
             log.error("Failed to schedule test for location: {}, browser: {}, attemptNumber: {}", location, browser,
                     testNumber, e);
