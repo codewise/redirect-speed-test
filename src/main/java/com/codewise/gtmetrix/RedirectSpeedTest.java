@@ -1,5 +1,7 @@
 package com.codewise.gtmetrix;
 
+import com.codewise.gtmetrix.configuration.Configuration;
+import com.codewise.gtmetrix.configuration.ConfigurationReader;
 import com.csvreader.CsvWriter;
 
 import java.io.IOException;
@@ -8,6 +10,8 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class RedirectSpeedTest {
+
+    private static final String CONFIGURATION_FILE = "configuration.yml";
 
     // Put your values here
     private static final String EMAIL = "email";
@@ -30,6 +34,7 @@ public class RedirectSpeedTest {
     );
 
     public static void main(String[] args) throws IOException, InterruptedException {
+        Configuration configuration = new ConfigurationReader().readConfiguration(CONFIGURATION_FILE);
         Gtmetrix gtmetrix = new Gtmetrix(EMAIL, API_KEY);
         CsvWriter csvWriter = new CsvWriter("report.csv");
         writeToCsv(csvWriter, "url", "id", "location", "attempt", "time");

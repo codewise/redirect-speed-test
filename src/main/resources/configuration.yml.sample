@@ -1,0 +1,20 @@
+apiKey: no-key # get api key from account details after logging in at https://gtmetrix.com/. account details can be found in 1pass
+urlToTest: https://example.com
+numberOfConcurrentTests: 2 # 2 is the maximum for free tier
+reportType: NONE # report type must be uppercase and match one of the ReportType enum values
+# keep in mind that the free API limits are low and the total number of tests to run is a result of multiplication of:
+# - number of test runs
+# - number of browsers
+# - number of locations
+numberOfTestsToRunForBrowserAndLocation: 1
+browsers: # browser must be uppercase and match one of the Browser enum values
+  - CHROME_DESKTOP
+  - FIREFOX_DESKTOP
+locations: # locations must be uppercase and match one of the Location enum values
+  - VANCOUVER_CANADA
+  - LONDON_UK
+  - SYDNEY_AUSTRALIA
+  - SAN_ANTONIO_USA
+  - MUMBAI_INDIA
+  - SAO_PAULO_BRAZIL
+  - HONG_KONG_CHINA
