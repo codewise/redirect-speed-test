@@ -34,8 +34,10 @@ public class TestRunner {
 
     public void runTests() {
         checkIfTestsCanBeRun();
+        log.info("Starting running tests");
         doRunTests();
         waitForTestResults();
+        log.info("Finished running tests");
     }
 
     private void checkIfTestsCanBeRun() {
@@ -48,7 +50,7 @@ public class TestRunner {
                 log.error(message);
                 throw new InsufficientApiCreditsException(message);
             }
-            log.debug("Tests can be run (credits that will be used: {}, currently available credits: {})",
+            log.info("Tests can be run (credits that will be used: {}, currently available credits: {})",
                     expectedApiUsage, availableApiCredits);
         } catch (IOException e) {
             log.error("Unable to check available api credits", e);

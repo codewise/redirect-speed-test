@@ -14,10 +14,10 @@ public class ConfigurationReader {
     private static final Yaml YAML = new Yaml(new Constructor(Configuration.class, new LoaderOptions()));
 
     public Configuration readConfiguration(String fileName) {
-        log.debug("Reading configuration file {}", fileName);
+        log.info("Reading configuration file {}", fileName);
         InputStream configurationFileAsStream = getClass().getClassLoader().getResourceAsStream(fileName);
         Configuration configuration = YAML.load(configurationFileAsStream);
-        log.debug("Successfully read configuration file {}. Configuration: {}", fileName, configuration);
+        log.info("Successfully read configuration file {}. Configuration: {}", fileName, configuration);
         return configuration;
     }
 }

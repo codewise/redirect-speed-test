@@ -25,7 +25,7 @@ public class CsvOutputHandler implements OutputHandler {
 
     @SneakyThrows
     public CsvOutputHandler(String fileName) {
-        log.debug("Opening test result file {}", fileName);
+        log.info("Opening test result file {}", fileName);
         BufferedWriter writer =
                 Files.newBufferedWriter(Paths.get(fileName), StandardOpenOption.APPEND, StandardOpenOption.CREATE);
         csvPrinter = new CSVPrinter(writer, CSV_FORMAT);
@@ -54,8 +54,8 @@ public class CsvOutputHandler implements OutputHandler {
     @SneakyThrows
     @Override
     public void close() {
-        log.debug("Closing csv file");
+        log.info("Closing test result file");
         csvPrinter.close(true);
-        log.debug("Closed csv file");
+        log.info("Closed test result file");
     }
 }

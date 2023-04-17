@@ -17,4 +17,17 @@ public class Configuration { // record will not work with snakeyaml
     int numberOfTestsToRunForBrowserAndLocation;
     List<Browser> browsers;
     List<Location> locations;
+
+    @Override
+    public String toString() {
+        return "Configuration{" +
+                "apiKey=<HIDDEN>" +
+                ", urlToTest='" + urlToTest + '\'' +
+                ", numberOfConcurrentTests=" + numberOfConcurrentTests +
+                ", reportType=" + reportType +
+                ", numberOfTestsToRunForBrowserAndLocation=" + numberOfTestsToRunForBrowserAndLocation +
+                ", browsers=" + browsers +
+                ", locations=" + locations +
+                '}';
+    }
 }
