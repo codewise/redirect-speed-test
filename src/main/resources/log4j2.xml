@@ -1,0 +1,19 @@
+<Configuration status="ERROR" name="RedirectSpeedTest" packages="">
+    <Properties>
+        <Property name="layout">%d{yyyy-MM-dd HH:mm:ss.SSS} [%p] %c{1} - %m%n</Property>
+    </Properties>
+    <Appenders>
+        <Console name="stdout" target="SYSTEM_OUT">
+            <PatternLayout pattern="${layout}"/>
+        </Console>
+        <File name="fileout" fileName="tests.log" append="true">
+            <PatternLayout pattern="${layout}"/>
+        </File>
+    </Appenders>
+    <Loggers>
+        <Root level="DEBUG">
+            <AppenderRef ref="stdout" level="INFO"/>
+            <AppenderRef ref="fileout"/>
+        </Root>
+    </Loggers>
+</Configuration>
