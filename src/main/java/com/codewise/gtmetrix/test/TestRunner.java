@@ -15,6 +15,7 @@ import java.time.Duration;
 import java.util.LinkedHashSet;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.BooleanSupplier;
 
 public class TestRunner {
 
@@ -36,7 +37,7 @@ public class TestRunner {
         checkIfTestsCanBeRun();
         log.info("Starting running tests");
         doRunTests();
-        waitForTestResults();
+        waitUntil(scheduledTests::isEmpty);
         log.info("Finished running tests");
     }
 
@@ -70,20 +71,18 @@ public class TestRunner {
     }
 
     private void runTest(Location location, Browser browser, int testNumber) {
-        if (isMaxConcurrentRequestsLimitMet()) {
-            waitForRequestSlot();
-        }
+        waitUntil(this::concurrentRequestsLimitIsNotExhausted);
         scheduleTest(location, browser, testNumber);
     }
 
-    private boolean isMaxConcurrentRequestsLimitMet() {
-        return scheduledTests.size() >= configuration.getNumberOfConcurrentTests();
+    private boolean concurrentRequestsLimitIsNotExhausted() {
+        return scheduledTests.size() < configuration.getNumberOfConcurrentTests();
     }
 
-    private void waitForRequestSlot() {
-        while (isMaxConcurrentRequestsLimitMet()) {
+    private void waitUntil(BooleanSupplier waitEndingCondition) {
+        while (!waitEndingCondition.getAsBoolean()) {
             checkAndHandleCompletedTests();
-            if (isMaxConcurrentRequestsLimitMet()) {
+            if (!waitEndingCondition.getAsBoolean()) {
                 waitWithoutThrowing();
             }
         }
@@ -131,15 +130,6 @@ public class TestRunner {
         } catch (IOException e) {
             log.error("Failed to schedule test for location: {}, browser: {}, attemptNumber: {}", location, browser,
                     testNumber, e);
-        }
-    }
-
-    private void waitForTestResults() {
-        while (!scheduledTests.isEmpty()) {
-            checkAndHandleCompletedTests();
-            if (!scheduledTests.isEmpty()) {
-                waitWithoutThrowing();
-            }
         }
     }
 }
