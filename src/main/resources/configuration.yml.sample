@@ -18,3 +18,19 @@ locations: # locations must be uppercase and match one of the Location enum valu
   - MUMBAI_INDIA
   - SAO_PAULO_BRAZIL
   - HONG_KONG_CHINA
+# below are paid locations
+#  - QUEBEC_CANADA
+#  - SAN_FRANCISCO_USA
+#  - CHEYENNE_USA
+#  - CHICAGO_USA
+#  - DANVILLE_USA
+#  - AMSTERDAM_NETHERLANDS
+#  - PARIS_FRANCE
+#  - FRANKFURT_GERMANY
+#  - STOCKHOLM_SWEDEN
+#  - SINGAPORE
+#  - TOKYO_JAPAN
+#  - BUSAN_SOUTH_KOREA
+#  - CHENNAI_INDIA
+#  - JOHANNESBURG_SOUTH_AFRICA
+#  - DUBAI_UAE
