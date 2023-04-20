@@ -10,6 +10,7 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Configuration { // record will not work with snakeyaml
 
+    String outputFile;
     String apiKey;
     String urlToTest;
     int numberOfConcurrentTests;
@@ -21,7 +22,8 @@ public class Configuration { // record will not work with snakeyaml
     @Override
     public String toString() {
         return "Configuration{" +
-                "apiKey=<HIDDEN>" +
+                "outputFile='" + outputFile + '\'' +
+                ", apiKey=<HIDDEN>" +
                 ", urlToTest='" + urlToTest + '\'' +
                 ", numberOfConcurrentTests=" + numberOfConcurrentTests +
                 ", reportType=" + reportType +

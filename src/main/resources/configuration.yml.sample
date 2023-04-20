@@ -1,3 +1,4 @@
+outputFile: results.csv
 apiKey: no-key # get api key from account details after logging in at https://gtmetrix.com/. account details can be found in 1pass
 urlToTest: https://example.com
 numberOfConcurrentTests: 2 # 2 is the maximum for free tier
