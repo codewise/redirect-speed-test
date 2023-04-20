@@ -7,56 +7,30 @@ import com.codewise.gtmetrix.configuration.Location;
 import com.codewise.gtmetrix.output.OutputHandler;
 import com.codewise.gtmetrix.test.data.ScheduledTest;
 import com.codewise.gtmetrix.test.data.TestResult;
+import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
-import java.time.Duration;
 import java.util.LinkedHashSet;
 import java.util.Optional;
 import java.util.Set;
-import java.util.function.BooleanSupplier;
 
+@RequiredArgsConstructor
 public class TestRunner {
 
     private static final Logger log = LogManager.getLogger(TestRunner.class);
-    private static final Duration SLEEP_TIME = Duration.ofSeconds(10);
+    private final ActionRunningWaiter actionRunningWaiter = new ActionRunningWaiter();
+    private final Set<ScheduledTest> scheduledTests = new LinkedHashSet<>();
     private final Configuration configuration;
     private final OutputHandler outputHandler;
     private final GtmetrixApi gtmetrixApi;
-    private final Set<ScheduledTest> scheduledTests;
-
-    public TestRunner(Configuration configuration, OutputHandler outputHandler) {
-        this.configuration = configuration;
-        this.outputHandler = outputHandler;
-        gtmetrixApi = new GtmetrixApi(configuration.getApiKey());
-        scheduledTests = new LinkedHashSet<>();
-    }
 
     public void runTests() {
-        checkIfTestsCanBeRun();
         log.info("Starting running tests");
         doRunTests();
-        waitUntil(scheduledTests::isEmpty);
+        actionRunningWaiter.waitUntilByRunningAction(scheduledTests::isEmpty, this::checkAndHandleCompletedTests);
         log.info("Finished running tests");
-    }
-
-    private void checkIfTestsCanBeRun() {
-        double expectedApiUsage = configuration.getExpectedApiUsage();
-        try {
-            double availableApiCredits = gtmetrixApi.checkAvailableApiCredits();
-            if (expectedApiUsage > availableApiCredits) {
-                String message = "Available credits (%s) not enough to execute all tests (total credits required: %s)"
-                        .formatted(availableApiCredits, expectedApiUsage);
-                log.error(message);
-                throw new InsufficientApiCreditsException(message);
-            }
-            log.info("Tests can be run (credits that will be used: {}, currently available credits: {})",
-                    expectedApiUsage, availableApiCredits);
-        } catch (IOException e) {
-            log.error("Unable to check available api credits", e);
-            throw new RuntimeException(e);
-        }
     }
 
     private void doRunTests() {
@@ -71,21 +45,13 @@ public class TestRunner {
     }
 
     private void runTest(Location location, Browser browser, int testNumber) {
-        waitUntil(this::concurrentRequestsLimitIsNotExhausted);
+        actionRunningWaiter.waitUntilByRunningAction(this::concurrentRequestsLimitIsNotExhausted,
+                this::checkAndHandleCompletedTests);
         scheduleTest(location, browser, testNumber);
     }
 
     private boolean concurrentRequestsLimitIsNotExhausted() {
         return scheduledTests.size() < configuration.getNumberOfConcurrentTests();
-    }
-
-    private void waitUntil(BooleanSupplier waitEndingCondition) {
-        while (!waitEndingCondition.getAsBoolean()) {
-            checkAndHandleCompletedTests();
-            if (!waitEndingCondition.getAsBoolean()) {
-                waitWithoutThrowing();
-            }
-        }
     }
 
     private void checkAndHandleCompletedTests() {
@@ -105,16 +71,6 @@ public class TestRunner {
         } catch (IOException e) {
             log.error("Failed to check state for test: {}", testId, e);
             return Optional.empty();
-        }
-    }
-
-    private void waitWithoutThrowing() {
-        try {
-            log.debug("Going to sleep for {} seconds", SLEEP_TIME.toSeconds());
-            Thread.sleep(SLEEP_TIME.toMillis());
-            log.debug("Woke up");
-        } catch (InterruptedException e) {
-            log.warn("Error while waiting", e);
         }
     }
 
