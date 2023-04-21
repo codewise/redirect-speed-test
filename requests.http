@@ -1,11 +1,21 @@
+### List available browsers
+GET {{apiUrl}}/browsers
+authorization: Basic {{apiKey}}:
+
 ### List available locations
-GET https://gtmetrix.com/api/0.1/locations
-Authorization: Basic {{email}} {{apiKey}}
+GET {{apiUrl}}/locations
+authorization: Basic {{apiKey}}:
 
-### List available locations but using API v2.0 (the code uses 0.1)
-GET https://gtmetrix.com/api/2.0/locations
-authorization: Basic {{apiKey}} {{email}}
+### Get test state
+< {%
+    request.variables.set("testId", "") // fill the id
+%}
+GET {{apiUrl}}/tests/{{testId}}
+authorization: Basic {{apiKey}}:
 
-### Get test results
-GET https://gtmetrix.com/api/0.1/test/{testId}/har
-authorization: Basic {{email}} {{apiKey}}
+### Get test report
+< {%
+    request.variables.set("reportId", "") // fill the id
+%}
+GET {{apiUrl}}/reports/{{reportId}}
+authorization: Basic {{apiKey}}:
