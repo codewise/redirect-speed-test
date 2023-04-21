@@ -1,16 +1,15 @@
 package com.codewise.gtmetrix.test;
 
 import lombok.RequiredArgsConstructor;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 
 import java.time.Duration;
 import java.util.function.BooleanSupplier;
 
+@Log4j2
 @RequiredArgsConstructor
 public class ActionRunningWaiter {
 
-    private static final Logger log = LogManager.getLogger(ActionRunningWaiter.class);
     private static final Duration DEFAULT_SLEEP_TIME = Duration.ofSeconds(10);
     private final Duration sleepTime;
 

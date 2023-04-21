@@ -3,15 +3,14 @@ package com.codewise.gtmetrix.test;
 import com.codewise.gtmetrix.api.GtmetrixApi;
 import com.codewise.gtmetrix.configuration.Configuration;
 import lombok.RequiredArgsConstructor;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 
 import java.io.IOException;
 
+@Log4j2
 @RequiredArgsConstructor
 public class ApiLimitsChecker {
 
-    private static final Logger log = LogManager.getLogger(ApiLimitsChecker.class);
     private final Configuration configuration;
     private final GtmetrixApi gtmetrixApi;
 

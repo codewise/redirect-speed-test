@@ -2,17 +2,16 @@ package com.codewise.gtmetrix.api;
 
 import com.codewise.gtmetrix.api.response.ApiResponse;
 import com.google.gson.Gson;
+import lombok.extern.log4j.Log4j2;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 
+@Log4j2
 public class JsonConverter {
 
-    private static final Logger log = LogManager.getLogger(JsonConverter.class);
     private static final Gson GSON = new Gson();
     private static final MediaType MEDIA_TYPE = MediaType.parse(GtmetrixApi.CONTENT_TYPE);
 

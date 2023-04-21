@@ -8,18 +8,17 @@ import com.codewise.gtmetrix.output.OutputHandler;
 import com.codewise.gtmetrix.test.data.ScheduledTest;
 import com.codewise.gtmetrix.test.data.TestResult;
 import lombok.RequiredArgsConstructor;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 
 import java.io.IOException;
 import java.util.LinkedHashSet;
 import java.util.Optional;
 import java.util.Set;
 
+@Log4j2
 @RequiredArgsConstructor
 public class TestRunner {
 
-    private static final Logger log = LogManager.getLogger(TestRunner.class);
     private final ActionRunningWaiter actionRunningWaiter = new ActionRunningWaiter();
     private final Set<ScheduledTest> scheduledTests = new LinkedHashSet<>();
     private final Configuration configuration;

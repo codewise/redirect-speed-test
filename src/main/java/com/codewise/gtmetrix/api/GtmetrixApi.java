@@ -6,22 +6,21 @@ import com.codewise.gtmetrix.configuration.Browser;
 import com.codewise.gtmetrix.configuration.Location;
 import com.codewise.gtmetrix.test.data.ScheduledTest;
 import com.codewise.gtmetrix.test.data.TestResult;
+import lombok.extern.log4j.Log4j2;
 import okhttp3.Credentials;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.time.Duration;
 import java.util.Optional;
 
+@Log4j2
 public class GtmetrixApi {
 
     static final String CONTENT_TYPE = "application/vnd.api+json";
-    private static final Logger log = LogManager.getLogger(GtmetrixApi.class);
     private static final Duration DEFAULT_TIMEOUT = Duration.ofSeconds(60);
     private static final String API_URL = "https://gtmetrix.com/api/2.0";
     private static final String AUTHORIZATION_HEADER = "Authorization";
