@@ -54,7 +54,7 @@ public class GtmetrixApi {
             ApiResponse parsedResponse = jsonConverter.toApiResponse(response);
             log.debug("Get account status parsed response: {}", parsedResponse);
             // Gson by default deserializes all numbers to Double
-            return parsedResponse.getNumberAttribute("api_credits").doubleValue();
+            return parsedResponse.getDoubleAttribute("api_credits");
         }
     }
 
@@ -110,7 +110,7 @@ public class GtmetrixApi {
         // https://gtmetrix.com/api/docs/2.0/#api-report-by-id
         if (parsedResponse.hasAttribute(REDIRECT_DURATION_ATTRIBUTE)) {
             String reportId = parsedResponse.data().id();
-            double result = parsedResponse.getNumberAttribute(REDIRECT_DURATION_ATTRIBUTE).doubleValue();
+            double result = parsedResponse.getDoubleAttribute(REDIRECT_DURATION_ATTRIBUTE);
             log.info("Completed test: {}. Result: {}", scheduledTest.testId(), result);
             return Optional.of(TestResult.fromScheduledTestWithResult(scheduledTest, reportId, String.valueOf(result)));
         }

@@ -65,11 +65,10 @@ public class TestRunner {
     }
 
     private Optional<TestResult> getTestResult(ScheduledTest scheduledTest) {
-        String testId = scheduledTest.testId();
         try {
             return gtmetrixApi.getTestResult(scheduledTest);
         } catch (IOException e) {
-            log.error("Failed to check state for test: {}", testId, e);
+            log.error("Failed to check state for test: {}", scheduledTest.testId(), e);
             return Optional.empty();
         }
     }

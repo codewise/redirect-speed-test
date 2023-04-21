@@ -26,8 +26,8 @@ public record ApiResponse(
                         expectedAttributeClass, attributeValue.getClass()));
     }
 
-    public Number getNumberAttribute(String attribute) {
-        return getAttribute(attribute, Number.class);
+    public double getDoubleAttribute(String attribute) {
+        return getAttribute(attribute, Double.class);
     }
 
     public String getStringAttribute(String attribute) {
